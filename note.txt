@@ -16,3 +16,7 @@ playground: true, --> page ga borib GraphQl ni practice qilish mumkin
 
 GraphQl--> asosiy --> resolver(query(get), mutation(post))
 REst api --> asosiy--> controller
+
+
+graphQL da enumlarni togridan togri ishlata olmaymiz:
+--> import { registerEnumType } from "@nestjs/graphql" qilishim kerak
