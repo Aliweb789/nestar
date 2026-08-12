@@ -12,3 +12,7 @@ import { GraphQLModule } from "@nestjs/graphql"
     ConfigModule.forRoot(),GraphQLModule.forRoot({ driver: ApolloDriver, playground: true, uploads: false, autoSchemaFile: true })
   ] --> eng kamida bitta query hosil qilinishi kerak
 playground: true, --> page ga borib GraphQl ni practice qilish mumkin
+
+
+GraphQl--> asosiy --> resolver(query(get), mutation(post))
+REst api --> asosiy--> controller
