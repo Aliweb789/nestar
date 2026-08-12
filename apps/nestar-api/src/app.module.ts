@@ -10,7 +10,16 @@ import { DatabaseModule } from './database/database.module';
 @Module({
   imports: [
     //--> env variablelarni oqish imkoniyatini beradi
-    ConfigModule.forRoot(), GraphQLModule.forRoot({ driver: ApolloDriver, playground: true, uploads: false, autoSchemaFile: true }), ComponentsModule, DatabaseModule
+    ConfigModule.forRoot(),
+    GraphQLModule.forRoot(
+      {
+        driver: ApolloDriver,
+        playground: true,
+        uploads: false,
+        autoSchemaFile: true
+      }),
+    ComponentsModule,
+    DatabaseModule
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],
