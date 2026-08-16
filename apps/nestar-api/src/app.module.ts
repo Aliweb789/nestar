@@ -21,6 +21,7 @@ import { DatabaseModule } from './database/database.module';
     ComponentsModule,
     DatabaseModule
   ],
+  // controller va providers remove qilsa boaldi,lekin test sifatida turibdi
   controllers: [AppController],
   providers: [AppService, AppResolver],
 })
