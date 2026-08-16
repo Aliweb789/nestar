@@ -27,4 +27,10 @@ nest g resolver components/member
 
  http://localhost:3007/graphql --> graphQL playground
 
+types --> graphQl ingredients
 
+validation --> fronenddan boshlanadi
+
+@UsePipes(ValidationPipe)  --> validation
+
+DT0 --> data transfer object
