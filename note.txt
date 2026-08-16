@@ -24,3 +24,7 @@ graphQL da enumlarni togridan togri ishlata olmaymiz:
 nest g module components/auth
 nest g resolver components/member
  nest g service  components/member --no-spec
+
+ http://localhost:3007/graphql --> graphQL playground
+
+
