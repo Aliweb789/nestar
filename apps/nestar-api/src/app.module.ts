@@ -24,4 +24,5 @@ import { DatabaseModule } from './database/database.module';
   controllers: [AppController],
   providers: [AppService, AppResolver],
 })
+
 export class AppModule { }

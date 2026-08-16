@@ -20,3 +20,5 @@ REst api --> asosiy--> controller
 
 graphQL da enumlarni togridan togri ishlata olmaymiz:
 --> import { registerEnumType } from "@nestjs/graphql" qilishim kerak
+
+nest g module components/auth
