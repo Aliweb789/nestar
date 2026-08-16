@@ -10,7 +10,7 @@ registerEnumType(MemberType, { name: "MemberType" })
 export enum MemberStatus {
     ACTIVE = "ACTIVE",
     BLOCK = "BLOCK",
-    DELETE = "BLOCK"
+    DELETE = "DELETE"
 }
 registerEnumType(MemberStatus, { name: "MemberStatus" })
 export enum MemberAuthType {
