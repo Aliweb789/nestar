@@ -6,6 +6,9 @@ import { UseGuards } from '@nestjs/common';
 import { ObjectId } from 'mongoose';
 import { AuthMember } from '../auth/decorators/authMember.decorator';
 import { AuthGuard } from '../auth/guards/auth.guard';
+import { MemberType } from '../../libs/enums/member.enum';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { RolesGuard } from '../auth/guards/roles.guard';
 
 @Resolver()
 export class MemberResolver {
@@ -34,6 +37,13 @@ export class MemberResolver {
     public async checkAuth(@AuthMember('memberNick') memberNick: string): Promise<string> {
         return `Hi ${memberNick}, you are authenticated!`
     }
+
+    @Mutation(() => String)
+    @Roles(MemberType.USER, MemberType.AGENT)
+    @UseGuards(RolesGuard)
+    public async checkAuthRoles(@AuthMember() authMember: Member): Promise<string> {
+        return `Hi ${authMember.memberNick}, you are ${authMember.memberType}!`
+    }
     @Query(() => String)
     public async getMember(): Promise<string> {
         return this.memberService.getMember()
@@ -42,11 +52,15 @@ export class MemberResolver {
     /* Admin */
 
     @Mutation(() => String)
-    public async getAllMembers(): Promise<string> {
-        return this.memberService.getAllMembers()
+    @Roles(MemberType.ADMIN)
+    @UseGuards(RolesGuard)
+    public async getAllMembersByAdmin(): Promise<string> {
+        return this.memberService.getAllMembersByAdmin()
     }
 
     @Mutation(() => String)
+    @Roles(MemberType.ADMIN)
+    @UseGuards(RolesGuard)
     public async updateMemberByAdmin(): Promise<string> {
         return this.memberService.updateMemberByAdmin()
     }
