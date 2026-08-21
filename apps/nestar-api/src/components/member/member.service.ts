@@ -15,9 +15,8 @@ export class MemberService {
             const result = await this.memberModel.create(input)
             // Todo: Authentication via TOKEN
             return result
-        } catch (err) {
-            const message = err instanceof Error ? err.message : JSON.stringify(err)
-            console.log("Error, Service.model:", message)
+        } catch (err: any) {
+            console.log("Error, Service.model:", err.message)
             throw new BadRequestException(Message.USED_MEMBER_NICK_OR_PHONE)
         }
 
