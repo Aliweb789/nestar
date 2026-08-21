@@ -11,14 +11,11 @@
     "incremental": true,
        "outDir": "./dist",
     "rootDir": "./apps",
-    "ignoreDeprecations": "6.0",
-    "baseUrl": "./",
     "skipLibCheck": true,
     "strictNullChecks": false,
     "forceConsistentCasingInFileNames": false,
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
-    "paths": {}
   }
 }
