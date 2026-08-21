@@ -14,10 +14,11 @@ export class LoggingInterceptor implements NestInterceptor {
 
         if (requestType === 'http') {
             /* Develop if needed! */
+            return next.handle();
         } else if (requestType === 'graphql') {
             /* (1) Print request */
             const gqlContext = GqlExecutionContext.create(context)
-            this.logger.log(`${this.stringify(gqlContext.getContext().req.body)}`, 'REQUEST');
+            this.logger.verbose(`${this.stringify(gqlContext.getContext().req.body)}`, 'REQUEST');
 
             /* (2) Errors handling via GraphQL */
 
@@ -25,10 +26,11 @@ export class LoggingInterceptor implements NestInterceptor {
             return next.handle().pipe(
                 tap((context) => {
                     const responseTime = Date.now() - recordTime
-                    this.logger.log(`${this.stringify(context)} - After... ${responseTime}ms \n\n`, 'RESPONSE')
+                    this.logger.warn(`${this.stringify(context)} - After... ${responseTime}ms \n\n`, 'RESPONSE')
                 }),
             );
         }
+        return next.handle();
     }
     private stringify(context: ExecutionContext): string {    // type of context - object
         return JSON.stringify(context).slice(0, 75);
