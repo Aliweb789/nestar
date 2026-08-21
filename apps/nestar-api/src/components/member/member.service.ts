@@ -16,8 +16,9 @@ export class MemberService {
             // Todo: Authentication via TOKEN
             return result
         } catch (err) {
-            console.log("Error, Service.model:", err)
-            throw new BadRequestException(err)
+            const message = err instanceof Error ? err.message : JSON.stringify(err)
+            console.log("Error, Service.model:", message)
+            throw new BadRequestException(Message.USED_MEMBER_NICK_OR_PHONE)
         }
 
     }
