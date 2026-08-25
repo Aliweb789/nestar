@@ -17,18 +17,18 @@ import { T } from './libs/types/common';
         driver: ApolloDriver,
         playground: true,
         uploads: false,
-        autoSchemaFile: true,
+        autoSchemaFile: true, //generates the GraphQL schema from decorators.
         formatError: (error: T) => {
-          const graphQLFormatError = {
+          const graphQLFormatError = { //This changes large GraphQL errors into smaller responses:
             code: error?.extensions.code,
             message: error?.extensions?.exception?.response?.message || error?.extensions?.response?.message || error?.message,
           };
           console.log("GraphQL Global Error:", graphQLFormatError);
           return graphQLFormatError;
         },
-      }),
-    ComponentsModule,
-    DatabaseModule
+      }), //GraphQL API
+    ComponentsModule, //HTTP
+    DatabaseModule //TCP 
   ],
   // controller va providers remove qilsa boaldi,lekin test sifatida turibdi
   controllers: [AppController],

@@ -7,9 +7,12 @@ import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: "Member", schema: MemberSchema }]),
+    MongooseModule.forFeature([{ name: "Member", schema: MemberSchema }]), //schema boglanish yozilmasa resolverda inject qilaolmaymiz
     AuthModule,
   ],
-  providers: [MemberResolver, MemberService]
+  providers: [
+    MemberResolver, // Member Controller
+    MemberService]  // member Serviec Model
 })
+
 export class MemberModule { }

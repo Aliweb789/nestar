@@ -39,6 +39,29 @@ export enum MemberType {
     USER = "USER",
     AGENT = "AGENT",
     ADMIN = "ADMIN"
-}
+}09esw-0xzsm
 registerEnumType(MemberType, { name: "MemberType" })
 registerEnumType --> graphql da enumlarni ishlatishga yordam beradi
+
+
+
+mutation --> post
+query--> get method
+
+| Decorator | Purpose |
+|---|---|
+| `@Module()` | Groups providers, controllers, and imports |
+| `@Injectable()` | Allows Nest to create and inject a class |
+| `@Controller()` | Defines a REST controller |
+| `@Get()` | Defines a REST GET endpoint |
+| `@Resolver()` | Defines a GraphQL resolver |
+| `@Query()` | Defines a GraphQL query |
+| `@Mutation()` | Defines a GraphQL mutation |
+| `@Args()` | Reads GraphQL arguments |
+| `@InputType()` | Defines GraphQL input |
+| `@ObjectType()` | Defines GraphQL output |
+| `@Field()` | Exposes a property in GraphQL |
+| `@UseGuards()` | Runs a guard before the resolver |
+| `@InjectModel()` | Injects a Mongoose model |
+| `@IsNotEmpty()` | Requires a nonempty input |
+| `@Length()` | Validates string length |
