@@ -8,12 +8,16 @@ import { Message } from '../../libs/enums/common.enum';
 import { AuthService } from '../auth/auth.service';
 import { MemberUpdate } from '../../libs/dto/member/member.update';
 import { T } from '../../libs/types/common';
+import { ViewService } from '../view/view.service';
+import { ViewInput } from '../../libs/dto/view/view.input';
+import { ViewGroup } from '../../libs/enums/view.enum';
 
 @Injectable()
 export class MemberService {
     constructor(
         @InjectModel("Member") private readonly memberModel: Model<Member>,
-        private readonly authService: AuthService,
+        private authService: AuthService,
+        private viewService: ViewService
     ) { }
     public async signup(input: MemberInput): Promise<Member> {
         input.memberPassword = await this.authService.hashPassword(input.memberPassword);
@@ -48,7 +52,7 @@ export class MemberService {
         result.accessToken = await this.authService.createToken(result)
         return result
     }
-    public async getMember(targetId: ObjectId): Promise<Member> {
+    public async getMember(memberId: ObjectId, targetId: ObjectId): Promise<Member> {
         const search: T = {
             _id: targetId,
             memberStatus: {
@@ -57,6 +61,16 @@ export class MemberService {
         }
         const targetMember = await this.memberModel.findOne(search).exec()
         if (!targetMember) throw new InternalServerErrorException(Message.NO_DATA_FOUND)
+        if (memberId) {
+            // record view
+            const viewInput: ViewInput = { memberId: memberId, viewRefId: targetId, viewGroup: ViewGroup.MEMBER }
+            const newView = await this.viewService.recordView(viewInput)
+            // increase memberView
+            if (newView) {
+                await this.memberModel.findOneAndUpdate(search, { $inc: { memberViews: 1 } }, { new: true }).exec()
+                targetMember.memberViews++
+            }
+        }
         return targetMember
     }
 
