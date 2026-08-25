@@ -5,22 +5,22 @@ import { MemberAuthType, MemberStatus, MemberType } from "../../enums/member.enu
 @ObjectType()
 export class Member {
     @Field(() => String)
-    _id!: ObjectId;
+    _id: ObjectId;
 
     @Field(() => MemberType)
-    memberType!: MemberType;
+    memberType: MemberType;
 
     @Field(() => MemberStatus)
-    memberStatus!: MemberStatus;
+    memberStatus: MemberStatus;
 
     @Field(() => MemberAuthType)
-    memberAuthType!: MemberAuthType;
+    memberAuthType: MemberAuthType;
 
     @Field(() => String)
-    memberNick!: string;
+    memberNick: string;
 
     @Field(() => String)
-    memberPhone!: string;
+    memberPhone: string;
 
     memberPassword?: string;
 
@@ -37,7 +37,7 @@ export class Member {
     memberDesc?: string;
 
     @Field(() => Int)
-    memberArticles!: number;
+    memberArticles: number;
 
     @Field(() => Int)
     memberFollowers!: number;
