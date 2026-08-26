@@ -6,3 +6,15 @@ export const shapeIntoMongoObjectId = (target: unknown): Types.ObjectId => {
 
 
 export const availableAgentSorts = ["createdAt", "updatedAt", "memberLikes", "memberViews", "memberRank"]
+
+export const availableMemberSorts = [
+    "createdAt",
+    "updatedAt",
+    "memberPoints",
+    "memberProperties",
+    "memberArticles",
+    "memberFollowers",
+    "memberFollowings",
+    "memberLikes",
+    "memberViews",
+]

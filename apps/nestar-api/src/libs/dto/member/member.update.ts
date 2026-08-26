@@ -16,7 +16,7 @@ export class MemberUpdate {
     memberType?: MemberType
 
     @IsOptional()
-    @Field(() => MemberType, { nullable: true })
+    @Field(() => MemberStatus, { nullable: true })
     memberStatus?: MemberStatus
 
     @IsOptional()
