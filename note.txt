@@ -1,0 +1,67 @@
+graphQL -> mahsus schema query languagega ega
+
+.env filedan foydalanish uchun
+import { ConfigModule } from "@nestjs/config"
+  imports: [
+    ConfigModule.forRoot()
+  ],
+
+graphQL implementation
+import { GraphQLModule } from "@nestjs/graphql"
+  imports: [
+    ConfigModule.forRoot(),GraphQLModule.forRoot({ driver: ApolloDriver, playground: true, uploads: false, autoSchemaFile: true })
+  ] --> eng kamida bitta query hosil qilinishi kerak
+playground: true, --> page ga borib GraphQl ni practice qilish mumkin
+
+
+GraphQl--> asosiy --> resolver(query(get), mutation(post))
+REst api --> asosiy--> controller
+
+
+graphQL da enumlarni togridan togri ishlata olmaymiz:
+--> import { registerEnumType } from "@nestjs/graphql" qilishim kerak
+
+nest g module components/auth
+nest g resolver components/member
+ nest g service  components/member --no-spec
+
+ http://localhost:3007/graphql --> graphQL playground
+
+types --> graphQl ingredients
+
+validation --> fronenddan boshlanadi
+
+@UsePipes(ValidationPipe)  --> validation
+
+DT0 --> data transfer object
+
+export enum MemberType {
+    USER = "USER",
+    AGENT = "AGENT",
+    ADMIN = "ADMIN"
+}09esw-0xzsm
+registerEnumType(MemberType, { name: "MemberType" })
+registerEnumType --> graphql da enumlarni ishlatishga yordam beradi
+
+
+
+mutation --> post
+query--> get method
+
+| Decorator | Purpose |
+|---|---|
+| `@Module()` | Groups providers, controllers, and imports |
+| `@Injectable()` | Allows Nest to create and inject a class |
+| `@Controller()` | Defines a REST controller |
+| `@Get()` | Defines a REST GET endpoint |
+| `@Resolver()` | Defines a GraphQL resolver |
+| `@Query()` | Defines a GraphQL query |
+| `@Mutation()` | Defines a GraphQL mutation |
+| `@Args()` | Reads GraphQL arguments |
+| `@InputType()` | Defines GraphQL input |
+| `@ObjectType()` | Defines GraphQL output |
+| `@Field()` | Exposes a property in GraphQL |
+| `@UseGuards()` | Runs a guard before the resolver |
+| `@InjectModel()` | Injects a Mongoose model |
+| `@IsNotEmpty()` | Requires a nonempty input |
+| `@Length()` | Validates string length |
