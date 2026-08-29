@@ -13,7 +13,8 @@ import { ViewModule } from '../view/view.module';
   ],
   providers: [
     MemberResolver, // Member Controller
-    MemberService]  // member Serviec Model
+    MemberService],  // member Serviec Model
+  exports: [MemberService]
 })
 
 export class MemberModule { }
