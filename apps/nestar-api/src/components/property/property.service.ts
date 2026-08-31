@@ -212,4 +212,27 @@ export class PropertyService {
     if (!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
     return result[0];
   }
+
+  public async updatePropertyByAdmin(input: PropertyUpdate): Promise<Property> {
+    const search: T = {
+      _id: input._id,
+      propertyStatus: PropertyStatus.ACTIVE,
+    };
+
+    if (input.propertyStatus === PropertyStatus.SOLD) input.soldAt = new Date();
+    else if (input.propertyStatus === PropertyStatus.DELETE) input.deletedAt = new Date();
+
+    const result = await this.propertyModel.findOneAndUpdate(search, input, { new: true }).exec();
+    if (!result) throw new InternalServerErrorException(Message.UPDATE_FAILED);
+
+    if (input.soldAt || input.deletedAt) {
+      await this.memberService.memberStatsEditor({
+        _id: result.memberId,
+        targetKey: 'memberProperties',
+        modifier: -1,
+      });
+    }
+
+    return result;
+  }
 }
