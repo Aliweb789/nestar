@@ -2,8 +2,8 @@ import { Mutation, Resolver, Query, Args } from '@nestjs/graphql';
 import { MemberService } from './member.service';
 import { AgentsInquiry, LoginInput, MemberInput, MembersInquiry } from '../../libs/dto/member/member.input';
 import { Member, Members } from '../../libs/dto/member/member';
-import { UseGuards } from '@nestjs/common';
-import { ObjectId } from 'mongoose';
+import { BadRequestException, InternalServerErrorException, UnsupportedMediaTypeException, UseGuards } from '@nestjs/common';
+import { Types } from 'mongoose';
 import { AuthMember } from '../auth/decorators/authMember.decorator';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { MemberType } from '../../libs/enums/member.enum';
@@ -48,7 +48,7 @@ export class MemberResolver {
     @Mutation(() => Member)
     public async updateMember(
         @Args('input') input: MemberUpdate,
-        @AuthMember('_id') memberId: ObjectId
+        @AuthMember('_id') memberId: Types.ObjectId
     ): Promise<Member> {
         console.log("Mutation: updateMember");
         delete input._id
@@ -57,16 +57,15 @@ export class MemberResolver {
 
     @UseGuards(WithoutGuard)
     @Query(() => Member)
-    public async getMember(@Args("memberId") input: string, @AuthMember('_id') memberId: ObjectId): Promise<Member> {
+    public async getMember(@Args("memberId") input: string, @AuthMember('_id') memberId: Types.ObjectId | null): Promise<Member> {
         console.log("Query: getMember")
         const targetId = shapeIntoMongoObjectId(input)
-        //@ts-ignore
         return this.memberService.getMember(memberId, targetId)
     }
 
     @UseGuards(WithoutGuard)
     @Query(() => Members)
-    public async getAgents(@Args('input') input: AgentsInquiry, @AuthMember('_id') memberId: ObjectId): Promise<Members> {
+    public async getAgents(@Args('input') input: AgentsInquiry, @AuthMember('_id') memberId: Types.ObjectId | null): Promise<Members> {
         console.log("Query: getAgents")
         return this.memberService.getAgents(memberId, input)
     }
@@ -104,9 +103,9 @@ export class MemberResolver {
         console.log('mimetype:', mimetype);
         console.log('validMimeTypes:', validMimeTypes);
 
-        if (!filename) throw new Error(Message.UPLOAD_FAILED);
+        if (!filename) throw new BadRequestException(Message.UPLOAD_FAILED);
         const validMime = validMimeTypes.includes(mimetype);
-        if (!validMime) throw new Error(Message.PROVIDE_ALLOWED_FORMAT);
+        if (!validMime) throw new UnsupportedMediaTypeException(Message.PROVIDE_ALLOWED_FORMAT);
 
         const imageName = getSerialForImage(filename);
         const url = `uploads/${target}/${imageName}`;
@@ -118,7 +117,7 @@ export class MemberResolver {
                 .on('finish', async () => resolve(true))
                 .on('error', () => reject(false));
         });
-        if (!result) throw new Error(Message.UPLOAD_FAILED);
+        if (!result) throw new InternalServerErrorException(Message.UPLOAD_FAILED);
 
         return url;
     }
@@ -138,7 +137,7 @@ export class MemberResolver {
                 const { filename, mimetype, encoding, createReadStream } = await img;
 
                 const validMime = validMimeTypes.includes(mimetype);
-                if (!validMime) throw new Error(Message.PROVIDE_ALLOWED_FORMAT);
+                if (!validMime) throw new UnsupportedMediaTypeException(Message.PROVIDE_ALLOWED_FORMAT);
 
                 const imageName = getSerialForImage(filename);
                 const url = `uploads/${target}/${imageName}`;
@@ -150,7 +149,7 @@ export class MemberResolver {
                         .on('finish', () => resolve(true))
                         .on('error', () => reject(false));
                 });
-                if (!result) throw new Error(Message.UPLOAD_FAILED);
+                if (!result) throw new InternalServerErrorException(Message.UPLOAD_FAILED);
 
                 uploadedImages[index] = url;
             } catch (err) {

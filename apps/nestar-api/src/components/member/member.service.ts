@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Member, Members } from '../../libs/dto/member/member';
 import { AgentsInquiry, LoginInput, MemberInput, MembersInquiry } from '../../libs/dto/member/member.input';
 import { MemberStatus, MemberType } from '../../libs/enums/member.enum';
@@ -45,14 +45,14 @@ export class MemberService {
         response.accessToken = await this.authService.createToken(response)
         return response
     }
-    public async updateMember(memberId: ObjectId, input: MemberUpdate): Promise<Member> {
+    public async updateMember(memberId: Types.ObjectId, input: MemberUpdate): Promise<Member> {
         const result: Member = await this.memberModel.findOneAndUpdate({ _id: memberId, memberStatus: MemberStatus.ACTIVE }, input, { new: true }).exec()
         if (!result) throw new InternalServerErrorException(Message.UPDATE_FAILED)
 
         result.accessToken = await this.authService.createToken(result)
         return result
     }
-    public async getMember(memberId: ObjectId, targetId: ObjectId): Promise<Member> {
+    public async getMember(memberId: Types.ObjectId | null, targetId: Types.ObjectId): Promise<Member> {
         const search: T = {
             _id: targetId,
             memberStatus: {
@@ -74,7 +74,7 @@ export class MemberService {
         return targetMember
     }
 
-    public async getAgents(memberId: ObjectId, input: AgentsInquiry): Promise<Members> {
+    public async getAgents(memberId: Types.ObjectId | null, input: AgentsInquiry): Promise<Members> {
         const { text } = input.search
         const match: T = { memberType: MemberType.AGENT, memberStatus: MemberStatus.ACTIVE }
         const sort: T = { [input?.sort ?? "createdAt"]: input?.direction ?? Direction.DESC }
