@@ -3,7 +3,7 @@ import { UseGuards } from '@nestjs/common';
 import { Types } from 'mongoose';
 import { PropertyService } from './property.service';
 import { Properties, Property } from '../../libs/dto/property/property';
-import { PropertiesInquiry, PropertyInput } from '../../libs/dto/property/property.input';
+import { AgentPropertiesInquiry, PropertiesInquiry, PropertyInput } from '../../libs/dto/property/property.input';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { MemberType } from '../../libs/enums/member.enum';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -59,5 +59,16 @@ export class PropertyResolver {
   ): Promise<Properties> {
     console.log('Query: getProperties');
     return this.propertyService.getProperties(memberId, input);
+  }
+
+  @Roles(MemberType.AGENT)
+  @UseGuards(RolesGuard)
+  @Query(() => Properties)
+  public async getAgentProperties(
+    @Args('input') input: AgentPropertiesInquiry,
+    @AuthMember('_id') memberId: Types.ObjectId,
+  ): Promise<Properties> {
+    console.log('Query: getAgentProperties');
+    return this.propertyService.getAgentProperties(memberId, input);
   }
 }
