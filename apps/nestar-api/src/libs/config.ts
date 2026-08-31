@@ -16,6 +16,16 @@ export const availableMemberSorts = [
     "memberViews",
 ]
 
+export const availableOptions = ['propertyBarter', 'propertyRent'];
+export const availablePropertySorts = [
+    'createdAt',
+    'updatedAt',
+    'propertyViews',
+    'propertyLikes',
+    'propertyRank',
+    'propertyPrice',
+];
+
 /** IMAGE CONFIGURATION */
 export const validMimeTypes = ['image/png', 'image/jpg', 'image/jpeg', 'application/octet-stream'];
 export const getSerialForImage = (filename: string) => {
@@ -26,3 +36,11 @@ export const shapeIntoMongoObjectId = (target: unknown): Types.ObjectId => {
     return typeof target === 'string' ? new Types.ObjectId(target) : target as Types.ObjectId;
 };
 
+export const lookUpMember = {
+    $lookup: {
+        from: 'members',
+        localField: 'memberId',
+        foreignField: '_id',
+        as: 'memberData',
+    },
+};
