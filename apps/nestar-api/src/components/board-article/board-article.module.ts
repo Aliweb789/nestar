@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import BoardArticleSchema from '../../schemas/BoardArticle.model';
 import { AuthModule } from '../auth/auth.module';
@@ -15,7 +15,7 @@ import { BoardArticleService } from './board-article.service';
     AuthModule,
     MemberModule,
     ViewModule,
-    CommentModule,
+    forwardRef(() => CommentModule),
     LikeModule,
   ],
   providers: [BoardArticleService, BoardArticleResolver],
