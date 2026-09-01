@@ -15,6 +15,7 @@ export const availableMemberSorts = [
     "memberLikes",
     "memberViews",
 ]
+export const availableBoardArticleSorts = ['createdAt', 'updatedAt', 'articleLikes', 'articleViews'];
 
 export const availableOptions = ['propertyBarter', 'propertyRent'];
 export const availablePropertySorts = [
