@@ -84,7 +84,7 @@ export class Property {
 @ObjectType()
 export class Properties {
   @Field(() => [Property])
-  properties: Property[];
+  list: Property[];
 
   @Field(() => [TotalCounter], { nullable: true })
   metaCounter?: TotalCounter[];

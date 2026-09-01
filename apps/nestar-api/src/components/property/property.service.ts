@@ -107,7 +107,7 @@ export class PropertyService {
       { $sort: sort },
       {
         $facet: {
-          properties: [
+          list: [
             { $skip: (input.page - 1) * input.limit },
             { $limit: input.limit },
             lookUpMember,
@@ -143,10 +143,7 @@ export class PropertyService {
     if (bedList?.length) match.propertyBeds = { $in: bedList };
     if (priceRange) match.propertyPrice = { $gte: priceRange.start, $lte: priceRange.end };
     if (periodsRange) {
-      match.constructedAt = {
-        $gte: new Date(`${periodsRange.start}-01-01T00:00:00.000Z`),
-        $lte: new Date(`${periodsRange.end}-12-31T23:59:59.999Z`),
-      };
+      match.constructedAt = { $gte: periodsRange.start, $lte: periodsRange.end };
     }
     if (squareRange) match.propertySquare = { $gte: squareRange.start, $lte: squareRange.end };
     if (text) match.propertyTitle = { $regex: new RegExp(text, 'i') };
@@ -170,7 +167,7 @@ export class PropertyService {
       { $sort: sort },
       {
         $facet: {
-          properties: [
+          list: [
             { $skip: (input.page - 1) * input.limit },
             { $limit: input.limit },
             lookUpMember,
@@ -198,7 +195,7 @@ export class PropertyService {
       { $sort: sort },
       {
         $facet: {
-          properties: [
+          list: [
             { $skip: (input.page - 1) * input.limit },
             { $limit: input.limit },
             lookUpMember,
