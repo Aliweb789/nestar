@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { Types } from 'mongoose';
+import { ObjectId, Types } from 'mongoose';
 import { BoardArticleService } from './board-article.service';
 import { BoardArticle, BoardArticles } from '../../libs/dto/board-article/board-article';
 import { AllBoardArticlesInquiry, BoardArticleInput, BoardArticlesInquiry } from '../../libs/dto/board-article/board-article.input';
@@ -15,7 +15,7 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 
 @Resolver()
 export class BoardArticleResolver {
-  constructor(private readonly boardArticleService: BoardArticleService) {}
+  constructor(private readonly boardArticleService: BoardArticleService) { }
 
   @UseGuards(AuthGuard)
   @Mutation(() => BoardArticle)
@@ -57,6 +57,14 @@ export class BoardArticleResolver {
   ): Promise<BoardArticles> {
     console.log('Query: getBoardArticles');
     return this.boardArticleService.getBoardArticles(input, memberId);
+  }
+
+  @UseGuards(AuthGuard)
+  @Mutation(() => BoardArticle)
+  public async likeTargetBoardArticle(@Args("articleId") input: string, @AuthMember('_id') memberId: ObjectId): Promise<BoardArticle> {
+    console.log("Mutation: likeTargetBoardArticle")
+    const likeRefId = shapeIntoMongoObjectId(input)
+    return await this.boardArticleService.likeTargetBoardArticle(memberId, likeRefId)
   }
 
   @Roles(MemberType.ADMIN)
