@@ -3,7 +3,7 @@ import { MemberService } from './member.service';
 import { AgentsInquiry, LoginInput, MemberInput, MembersInquiry } from '../../libs/dto/member/member.input';
 import { Member, Members } from '../../libs/dto/member/member';
 import { BadRequestException, InternalServerErrorException, UnsupportedMediaTypeException, UseGuards } from '@nestjs/common';
-import { Types } from 'mongoose';
+import { ObjectId, Types } from 'mongoose';
 import { AuthMember } from '../auth/decorators/authMember.decorator';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { MemberType } from '../../libs/enums/member.enum';
@@ -68,6 +68,13 @@ export class MemberResolver {
     public async getAgents(@Args('input') input: AgentsInquiry, @AuthMember('_id') memberId: Types.ObjectId | null): Promise<Members> {
         console.log("Query: getAgents")
         return this.memberService.getAgents(memberId, input)
+    }
+    @UseGuards(AuthGuard)
+    @Mutation(() => Member)
+    public async likeTargetMember(@Args("memberId") input: string, @AuthMember('_id') memberId: ObjectId): Promise<Member> {
+        console.log("Mutation: likeTargetMember")
+        const likeRefId = shapeIntoMongoObjectId(input)
+        return await this.memberService.likeTargetMember(memberId, likeRefId)
     }
 
     /* Admin */
