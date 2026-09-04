@@ -100,11 +100,13 @@ export class PropertyService {
     const match: T = { propertyStatus: PropertyStatus.ACTIVE };
     const sort: T = { [input.sort ?? 'createdAt']: input.direction ?? Direction.DESC };
 
+    //objectimiz referenci bor, uni return qilishimiz shart emas
     this.shapeMatchQuery(match, input);
 
     const result = await this.propertyModel.aggregate([
-      { $match: match },
-      { $sort: sort },
+      { $match: match }, //list va metaCounterda yozish kerak edi lekin biz qisqartirib shunday bitta qilib yozdik(global)
+      { $sort: sort }, //list arryi ichida bolishi kerak edi
+      //[Property1.memberId, Property2.memberId]
       {
         $facet: {
           list: [
@@ -113,7 +115,9 @@ export class PropertyService {
             lookUpMember,
             { $unwind: '$memberData' },
           ],
-          metaCounter: [{ $count: 'total' }],
+          //[Property1[memberId], Property2[memberId]]
+          metaCounter: [{ $count: 'total' }], //property hosil qilgan odamni memberDatasini qoshib qoyayapmiz
+          //[Property1+memberData, Property2+memberData]
         },
       },
     ]).exec();

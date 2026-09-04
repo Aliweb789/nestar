@@ -18,7 +18,7 @@ import { Message } from '../../libs/enums/common.enum';
 
 @Resolver()
 export class MemberResolver {
-    constructor(private readonly memberService: MemberService) { }
+    constructor(private readonly memberService: MemberService) { } //dependency injection --> hamma narsani ozi bilan olib keladi
     @Mutation(() => Member)
     public async signup(@Args("input") input: MemberInput): Promise<Member> {
         console.log("Mutation: signup");
@@ -96,7 +96,7 @@ export class MemberResolver {
     public async imageUploader(
         @Args({ name: 'file', type: () => GraphQLUpload })
         { createReadStream, filename, mimetype }: FileUpload,
-        @Args('target') target: String,
+        @Args('target') target: String, //qaysi manzilga joylash kerak
     ): Promise<string> {
         console.log('Mutation: imageUploader');
         console.log('filename:', filename);
@@ -160,7 +160,4 @@ export class MemberResolver {
         await Promise.all(promisedList);
         return uploadedImages;
     }
-
-
-
 }

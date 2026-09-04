@@ -9,7 +9,8 @@ import { ViewModule } from '../view/view.module';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: "Member", schema: MemberSchema }]), //schema boglanish yozilmasa resolverda inject qilaolmaymiz
-    AuthModule, ViewModule
+    AuthModule,
+    ViewModule
   ],
   providers: [
     MemberResolver, // Member Controller

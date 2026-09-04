@@ -39,7 +39,7 @@ export enum MemberType {
     USER = "USER",
     AGENT = "AGENT",
     ADMIN = "ADMIN"
-}09esw-0xzsm
+}
 registerEnumType(MemberType, { name: "MemberType" })
 registerEnumType --> graphql da enumlarni ishlatishga yordam beradi
 
@@ -65,3 +65,15 @@ query--> get method
 | `@InjectModel()` | Injects a Mongoose model |
 | `@IsNotEmpty()` | Requires a nonempty input |
 | `@Length()` | Validates string length |
+
+
+
+auth.module --> step1           exports: [AuthService]
+member.module --> step2         imports: [AuthModule]
+member.service --> step3        private authService: AuthService,
+
+
+    @Roles(MemberType.ADMIN) --> custom decorator
+    @UseGuards(RolesGuard).  --> guard
+
+

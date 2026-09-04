@@ -18,7 +18,7 @@ export class BoardArticleService {
     @InjectModel('BoardArticle') private readonly boardArticleModel: Model<BoardArticle>,
     private readonly viewService: ViewService,
     private readonly memberService: MemberService,
-  ) {}
+  ) { }
 
   public async createBoardArticle(input: BoardArticleInput, memberId: Types.ObjectId): Promise<BoardArticle> {
     input.memberId = memberId;

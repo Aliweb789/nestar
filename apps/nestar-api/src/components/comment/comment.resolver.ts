@@ -15,7 +15,7 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 
 @Resolver()
 export class CommentResolver {
-  constructor(private readonly commentService: CommentService) {}
+  constructor(private readonly commentService: CommentService) { }
 
   @UseGuards(AuthGuard)
   @Mutation(() => Comment)
@@ -50,6 +50,8 @@ export class CommentResolver {
     return this.commentService.getComments(memberId, input);
   }
 
+
+  //ADMIN
   @Roles(MemberType.ADMIN)
   @UseGuards(RolesGuard)
   @Mutation(() => Comment)
