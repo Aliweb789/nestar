@@ -6,6 +6,7 @@ import { ViewModule } from '../view/view.module';
 import { PropertyResolver } from './property.resolver';
 import { PropertyService } from './property.service';
 import { MemberModule } from '../member/member.module';
+import { LikeModule } from '../like/like.module';
 
 @Module({
   imports: [
@@ -13,8 +14,9 @@ import { MemberModule } from '../member/member.module';
     AuthModule,
     ViewModule,
     MemberModule,
+    LikeModule
   ],
   providers: [PropertyResolver, PropertyService],
   exports: [PropertyService],
 })
-export class PropertyModule {}
+export class PropertyModule { }
