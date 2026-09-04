@@ -1,6 +1,6 @@
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { ObjectId, Types } from 'mongoose';
+import { Types } from 'mongoose';
 import { PropertyService } from './property.service';
 import { Properties, Property } from '../../libs/dto/property/property';
 import { AgentPropertiesInquiry, AllPropertiesInquiry, PropertiesInquiry, PropertyInput } from '../../libs/dto/property/property.input';
@@ -75,7 +75,7 @@ export class PropertyResolver {
 
   @UseGuards(AuthGuard)
   @Mutation(() => Property)
-  public async likeTargetProperty(@Args("propertyId") input: string, @AuthMember('_id') memberId: ObjectId): Promise<Property> {
+  public async likeTargetProperty(@Args("propertyId") input: string, @AuthMember('_id') memberId: Types.ObjectId): Promise<Property> {
     console.log("Mutation: likeTargetProperty")
     const likeRefId = shapeIntoMongoObjectId(input)
     return await this.propertyService.likeTargetProperty(memberId, likeRefId)

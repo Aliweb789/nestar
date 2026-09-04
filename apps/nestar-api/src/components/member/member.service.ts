@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId, Types } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Member, Members } from '../../libs/dto/member/member';
 import { AgentsInquiry, LoginInput, MemberInput, MembersInquiry } from '../../libs/dto/member/member.input';
 import { MemberStatus, MemberType } from '../../libs/enums/member.enum';
@@ -101,7 +101,7 @@ export class MemberService {
         if (!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND)
         return result[0]
     }
-    public async likeTargetMember(memberId: ObjectId, likeRefId: ObjectId): Promise<Member> {
+    public async likeTargetMember(memberId: Types.ObjectId, likeRefId: Types.ObjectId): Promise<Member> {
         const target: Member = await this.memberModel.findOne({ _id: likeRefId, memberStatus: MemberStatus.ACTIVE }).exec()
         if (!target) throw new InternalServerErrorException(Message.NO_DATA_FOUND)
 

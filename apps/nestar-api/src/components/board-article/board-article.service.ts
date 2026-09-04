@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId, Types } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { BoardArticle, BoardArticles } from '../../libs/dto/board-article/board-article';
 import { AllBoardArticlesInquiry, BoardArticleInput, BoardArticlesInquiry } from '../../libs/dto/board-article/board-article.input';
 import { BoardArticleUpdate } from '../../libs/dto/board-article/board-article.update';
@@ -117,7 +117,7 @@ export class BoardArticleService {
     if (!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
     return result[0];
   }
-  public async likeTargetBoardArticle(memberId: ObjectId, likeRefId: ObjectId): Promise<BoardArticle> {
+  public async likeTargetBoardArticle(memberId: Types.ObjectId, likeRefId: Types.ObjectId): Promise<BoardArticle> {
     const target: BoardArticle = await this.boardArticleModel.findOne({ _id: likeRefId, articleStatus: BoardArticleStatus.ACTIVE }).exec()
     if (!target) throw new InternalServerErrorException(Message.NO_DATA_FOUND)
 

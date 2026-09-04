@@ -1,5 +1,5 @@
 import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
-import type { ObjectId, Types } from 'mongoose';
+import type { Types } from 'mongoose';
 import { PropertyLocation, PropertyStatus, PropertyType } from '../../enums/property.enum';
 import { Member, TotalCounter } from '../member/member';
 import { MeLiked } from '../like/like';
@@ -7,7 +7,7 @@ import { MeLiked } from '../like/like';
 @ObjectType()
 export class Property {
   @Field(() => String)
-  _id: ObjectId;
+  _id: Types.ObjectId;
 
   @Field(() => PropertyType)
   propertyType: PropertyType;

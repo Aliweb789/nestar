@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { ObjectId, Types } from 'mongoose';
+import { Types } from 'mongoose';
 import { BoardArticleService } from './board-article.service';
 import { BoardArticle, BoardArticles } from '../../libs/dto/board-article/board-article';
 import { AllBoardArticlesInquiry, BoardArticleInput, BoardArticlesInquiry } from '../../libs/dto/board-article/board-article.input';
@@ -61,7 +61,7 @@ export class BoardArticleResolver {
 
   @UseGuards(AuthGuard)
   @Mutation(() => BoardArticle)
-  public async likeTargetBoardArticle(@Args("articleId") input: string, @AuthMember('_id') memberId: ObjectId): Promise<BoardArticle> {
+  public async likeTargetBoardArticle(@Args("articleId") input: string, @AuthMember('_id') memberId: Types.ObjectId): Promise<BoardArticle> {
     console.log("Mutation: likeTargetBoardArticle")
     const likeRefId = shapeIntoMongoObjectId(input)
     return await this.boardArticleService.likeTargetBoardArticle(memberId, likeRefId)

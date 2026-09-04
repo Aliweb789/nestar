@@ -1,4 +1,4 @@
-import { ObjectId } from 'bson';
+import { Types } from 'mongoose';
 import { randomUUID } from 'crypto';
 import * as path from 'path';
 
@@ -34,8 +34,8 @@ export const getSerialForImage = (filename: string) => {
     const ext = path.parse(filename).ext;
     return randomUUID() + ext;
 };
-export const shapeIntoMongoObjectId = (target: any) => {
-    return typeof target === 'string' ? new ObjectId(target) : target;
+export const shapeIntoMongoObjectId = (target: unknown): Types.ObjectId => {
+    return typeof target === 'string' ? new Types.ObjectId(target) : target as Types.ObjectId;
 }
 
 export const lookUpMember = {

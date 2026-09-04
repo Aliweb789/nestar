@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId, Types } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { AuthService } from '../auth/auth.service';
 import { ViewService } from '../view/view.service';
 import { Properties, Property } from '../../libs/dto/property/property';
@@ -192,7 +192,7 @@ export class PropertyService {
     return result[0];
   }
 
-  public async likeTargetProperty(memberId: ObjectId, likeRefId: ObjectId): Promise<Property> {
+  public async likeTargetProperty(memberId: Types.ObjectId, likeRefId: Types.ObjectId): Promise<Property> {
     const target: Property = await this.propertyModel.findOne({ _id: likeRefId, propertyStatus: PropertyStatus.ACTIVE }).exec()
     if (!target) throw new InternalServerErrorException(Message.NO_DATA_FOUND)
 
