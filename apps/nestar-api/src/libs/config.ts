@@ -64,7 +64,7 @@ export const lookupAuthMemberLiked = (memberId: T, targetRefId: string = '$_id')
     };
 };
 
-interface LookupAuthMemberFollowed {
+interface LookupAuthMemberFollowed { //interface hosil qilamiz
     followerId: T;
     followingId: string;
 }
@@ -76,7 +76,7 @@ export const lookupAuthMemberFollowed = (input: LookupAuthMemberFollowed) => {
             from: 'follows',
             let: {
                 localFollowerId: followerId,
-                localFollowingId: followingId,
+                localFollowingId: followingId, //"$followingId"
                 localMyFollows: true,
             },
             pipeline: [
@@ -93,7 +93,7 @@ export const lookupAuthMemberFollowed = (input: LookupAuthMemberFollowed) => {
                 {
                     $project: {
                         _id: 0,
-                        followerId: 1,
+                        followerId: 1, //DTO nomi bilan bir hil(follow.ts)
                         followingId: 1,
                         myFollowing: '$$localMyFollows',
                     },
