@@ -33,7 +33,9 @@ export class MemberResolver {
 
     @Mutation(() => String)
     @UseGuards(AuthGuard)
-    public async checkAuth(@AuthMember('memberNick') memberNick: string): Promise<string> {
+    public async checkAuth(
+        @AuthMember('memberNick') memberNick: string
+    ): Promise<string> {
         return `Hi ${memberNick}, you are authenticated!`
     }
 
@@ -67,13 +69,19 @@ export class MemberResolver {
 
     @UseGuards(WithoutGuard)
     @Query(() => Members)
-    public async getAgents(@Args('input') input: AgentsInquiry, @AuthMember('_id') memberId: Types.ObjectId | null): Promise<Members> {
+    public async getAgents(
+        @Args('input') input: AgentsInquiry,
+        @AuthMember('_id') memberId: Types.ObjectId | null
+    ): Promise<Members> {
         console.log("Query: getAgents")
         return this.memberService.getAgents(memberId, input)
     }
     @UseGuards(AuthGuard)
     @Mutation(() => Member)
-    public async likeTargetMember(@Args("memberId") input: string, @AuthMember('_id') memberId: Types.ObjectId): Promise<Member> {
+    public async likeTargetMember(
+        @Args("memberId") input: string,
+        @AuthMember('_id') memberId: Types.ObjectId
+    ): Promise<Member> {
         console.log("Mutation: likeTargetMember")
         const likeRefId = shapeIntoMongoObjectId(input)
         return await this.memberService.likeTargetMember(memberId, likeRefId)

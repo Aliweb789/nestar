@@ -4,7 +4,7 @@ import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { Follower, Followers, Followings } from '../../libs/dto/follow/follow';
 import { AuthMember } from '../auth/decorators/authMember.decorator';
-import { ObjectId } from 'mongoose';
+import { Types } from 'mongoose';
 import { shapeIntoMongoObjectId } from '../../libs/config';
 import { WithoutGuard } from '../auth/guards/without.guard';
 import { FollowInquiry } from '../../libs/dto/follow/follow.input';
@@ -17,7 +17,7 @@ export class FollowResolver {
     @Mutation((returns) => Follower)
     public async subscribe(
         @Args('input') input: string,
-        @AuthMember('_id') memberId: ObjectId,
+        @AuthMember('_id') memberId: Types.ObjectId,
     ): Promise<Follower> {
         console.log('Mutation: subscribe');
         const followingId = shapeIntoMongoObjectId(input);
@@ -28,7 +28,7 @@ export class FollowResolver {
     @Mutation((returns) => Follower)
     public async unsubscribe(
         @Args('input') input: string,
-        @AuthMember('_id') memberId: ObjectId,
+        @AuthMember('_id') memberId: Types.ObjectId,
     ): Promise<Follower> {
         console.log('Mutation: unsubscribe');
         const followingId = shapeIntoMongoObjectId(input);
@@ -39,7 +39,7 @@ export class FollowResolver {
     @Query((returns) => Followings)
     public async getMemberFollowings(
         @Args('input') input: FollowInquiry,
-        @AuthMember('_id') memberId: ObjectId,
+        @AuthMember('_id') memberId: Types.ObjectId,
     ): Promise<Followings> {
         console.log('Query: getMemberFollowings');
         const { followerId } = input.search;
@@ -51,7 +51,7 @@ export class FollowResolver {
     @Query((returns) => Followers)
     public async getMemberFollowers(
         @Args('input') input: FollowInquiry,
-        @AuthMember('_id') memberId: ObjectId,
+        @AuthMember('_id') memberId: Types.ObjectId,
     ): Promise<Followers> {
         console.log('Query: getMemberFollowers');
         const { followingId } = input.search;

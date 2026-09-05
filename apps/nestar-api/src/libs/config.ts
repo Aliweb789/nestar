@@ -1,5 +1,5 @@
-import { ObjectId } from 'bson';
 import { randomUUID } from 'crypto';
+import { Types } from 'mongoose';
 import * as path from 'path';
 import { T } from './types/common';
 import { pipeline } from 'stream';
@@ -8,7 +8,7 @@ export const availableAgentSorts = ['createdAt', 'updatedAt', 'memberRank', 'mem
 export const availableMemberSorts = ['createdAt', 'updatedAt', 'memberPoints', 'memberProperties', 'memberArticles', 'memberFollowers', 'memberFollowings', 'memberLikes', 'memberViews'];
 export const availableBoardArticleSorts = ['createdAt', 'updatedAt', 'articleLikes', 'articleViews'];
 export const availableCommentSorts = ['createdAt', 'updatedAt'];
-export const availablePropertySortes = [
+export const availablePropertySorts = [
     'createdAt',
     'updatedAt',
     'propertyViews',
@@ -26,23 +26,23 @@ export const getSerialForImage = (filename: string) => {
     return randomUUID() + ext;
 };
 
-export const shapeIntoMongoObjectId = (target: any) => {
-    return typeof target === 'string' ? new ObjectId(target) : target;
-}
+export const shapeIntoMongoObjectId = (target: string | Types.ObjectId): Types.ObjectId => {
+    return typeof target === 'string' ? new Types.ObjectId(target) : target;
+};
 
 export const lookupAuthMemberLiked = (memberId: T, targetRefId: string = '$_id') => {
     return {
         $lookup: {
             from: 'likes',
-            let: {
+            let: { //local variables
                 localLikeRefId: targetRefId,
                 localMemberId: memberId,
-                localMyFavorite: true,
+                localMyFavorite: true, //ozimiz uchun bir qiymat
             },
             pipeline: [
                 {
                     $match: {
-                        $expr: {                                          //С $expr — можно сравнивать поля между собой или использовать переменные из $lookup 
+                        $expr: { //bir nechta narsani match qilmoqchimiz
                             $and: [
                                 { $eq: ['$likeRefId', '$$localLikeRefId'] }, // $ - schema field, $$ - local variable
                                 { $eq: ['$memberId', '$$localMemberId'] },
@@ -52,14 +52,14 @@ export const lookupAuthMemberLiked = (memberId: T, targetRefId: string = '$_id')
                 },
                 {
                     $project: {
-                        _id: 0,
+                        _id: 0, //idni olib bermaslik uchun(default 1)
                         memberId: 1,
                         likeRefId: 1,
                         myFavorite: '$$localMyFavorite',
                     },
                 },
-            ],
-            as: 'meLiked',
+            ], //pipeline hosil boldi
+            as: 'meLiked', //qanday nom bilan saqlash(property.ts da meLiked qilganmiz)
         },
     };
 };
