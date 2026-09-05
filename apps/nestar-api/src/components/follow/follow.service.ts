@@ -36,7 +36,7 @@ export class FollowService {
                 followingId: followingId,
                 followerId: followerId,
             });
-        } catch (err) {
+        } catch (err: any) {
             console.log('Error, Service.model:', err.message);
             throw new BadRequestException(Message.CREATE_FAILED);
         }
@@ -107,7 +107,7 @@ export class FollowService {
                             { $skip: (page - 1) * limit },
                             { $limit: limit },
                             // meLiked
-                            lookupAuthMemberLiked(memberId, "$followingId"),
+                            lookupAuthMemberLiked(memberId, "$followerId"),
                             // meFollowed
                             lookupAuthMemberFollowed({ followerId: memberId, followingId: "$followerId" }),
                             lookupFollowerData,
