@@ -4,7 +4,7 @@ import { Model, Types } from 'mongoose';
 import { AuthService } from '../auth/auth.service';
 import { ViewService } from '../view/view.service';
 import { Properties, Property } from '../../libs/dto/property/property';
-import { AgentPropertiesInquiry, AllPropertiesInquiry, PropertiesInquiry, PropertyInput } from '../../libs/dto/property/property.input';
+import { AgentPropertiesInquiry, AllPropertiesInquiry, OrdinaryInquiry, PropertiesInquiry, PropertyInput } from '../../libs/dto/property/property.input';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { MemberService } from '../member/member.service';
 import { StatisticModifier, T } from '../../libs/types/common';
@@ -160,6 +160,10 @@ export class PropertyService {
     if (squareRange) match.propertySquare = { $gte: squareRange.start, $lte: squareRange.end };
     if (text) match.propertyTitle = { $regex: new RegExp(text, 'i') };
     if (options?.length) match.$or = options.map((option) => ({ [option]: true }));
+  }
+
+  public async getFavorites(memberId: Types.ObjectId, input: OrdinaryInquiry): Promise<Properties> {
+    return this.likeService.getFavoriteProperties(memberId, input);
   }
 
   public async getAgentProperties(memberId: Types.ObjectId, input: AgentPropertiesInquiry): Promise<Properties> {
