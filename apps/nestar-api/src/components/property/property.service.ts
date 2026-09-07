@@ -166,6 +166,10 @@ export class PropertyService {
     return this.likeService.getFavoriteProperties(memberId, input);
   }
 
+  public async getVisited(memberId: Types.ObjectId, input: OrdinaryInquiry): Promise<Properties> {
+    return this.viewService.getVisited(memberId, input);
+  }
+
   public async getAgentProperties(memberId: Types.ObjectId, input: AgentPropertiesInquiry): Promise<Properties> {
     const { propertyStatus } = input.search;
     if (propertyStatus === PropertyStatus.DELETE) {

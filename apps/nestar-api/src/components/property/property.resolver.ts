@@ -72,6 +72,16 @@ export class PropertyResolver {
     return this.propertyService.getFavorites(memberId, input);
   }
 
+  @UseGuards(AuthGuard)
+  @Query(() => Properties)
+  public async getVisited(
+    @Args('input') input: OrdinaryInquiry,
+    @AuthMember('_id') memberId: Types.ObjectId,
+  ): Promise<Properties> {
+    console.log('Query: getVisited');
+    return this.propertyService.getVisited(memberId, input);
+  }
+
   @Roles(MemberType.AGENT)
   @UseGuards(RolesGuard)
   @Query(() => Properties)
