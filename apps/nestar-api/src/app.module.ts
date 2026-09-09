@@ -9,6 +9,7 @@ import { ComponentsModule } from './components/components.module';
 import { DatabaseModule } from './database/database.module';
 import { T } from './libs/types/common';
 import { ViewService } from './components/view/view.service';
+import { SocketModule } from './socket/socket.module';
 @Module({
   imports: [
     //--> env variablelarni oqish imkoniyatini beradi
@@ -29,7 +30,7 @@ import { ViewService } from './components/view/view.service';
         },
       }), //GraphQL API
     ComponentsModule, //HTTP
-    DatabaseModule //TCP 
+    DatabaseModule, SocketModule //TCP 
   ],
   // controller va providers remove qilsa boaldi,lekin test sifatida turibdi
   controllers: [AppController],

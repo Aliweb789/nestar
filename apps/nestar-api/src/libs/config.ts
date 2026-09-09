@@ -43,15 +43,15 @@ export const lookupAuthMemberLiked = (memberId: T, targetRefId: string = '$_id')
                 {
                     $match: {
                         $expr: { //bir nechta narsani match qilmoqchimiz
-                            $and: [
+                            $and: [ //expr --> and, eq, gt larni match ichida ishlatish uchun ham ishlatiladi
                                 { $eq: ['$likeRefId', '$$localLikeRefId'] }, // $ - schema field, $$ - local variable
                                 { $eq: ['$memberId', '$$localMemberId'] },
-                            ],
+                            ], //and --> both true
                         },
                     },
                 },
                 {
-                    $project: {
+                    $project: { //which fields should appear in the result
                         _id: 0, //idni olib bermaslik uchun(default 1)
                         memberId: 1,
                         likeRefId: 1,
